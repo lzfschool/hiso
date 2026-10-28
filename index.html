@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>楊梅高中學務處校史</title>
+<style>
+:root{
+  --bg:#faf8f4; --panel:#fff; --ink:#2a2a2a; --sub:#6b6b6b; --line:#e4dfd6; --accent:#8a5a2b;
+  --shadow:0 1px 3px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#1b1a18;--panel:#252320;--ink:#ece7df;--sub:#a49d92;--line:#3a3631;--accent:#d9a86c;--shadow:none}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif}
+header.hero{padding:44px 16px 28px;text-align:center;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(138,90,43,.12),transparent)}
+.hero h1{margin:0 0 6px;font-size:clamp(28px,5vw,42px);letter-spacing:.08em}
+.hero p{margin:0 auto;max-width:720px;color:var(--sub)}
+.stats{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:22px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 20px;min-width:110px;box-shadow:var(--shadow)}
+.stat b{display:block;font-size:26px;color:var(--accent)}
+.stat span{font-size:13px;color:var(--sub)}
+nav.tabs{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:4px;padding:8px 12px;overflow-x:auto}
+nav.tabs button{border:0;background:none;padding:8px 16px;border-radius:20px;font:inherit;color:var(--sub);cursor:pointer;white-space:nowrap}
+nav.tabs button.on{background:var(--accent);color:#fff}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+section.view{display:none}section.view.on{display:block}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:5px 14px;border-radius:20px;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{color:#fff;border-color:transparent}
+.filters input[type=search],.filters select{padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit;font-size:14px}
+.filters label{font-size:14px;color:var(--sub);display:flex;gap:4px;align-items:center}
+.ay{position:sticky;top:52px;z-index:5;background:var(--bg);padding:14px 0 6px;margin:0;font-size:20px;border-bottom:2px solid var(--accent)}
+.ay small{font-size:13px;color:var(--sub);font-weight:400;margin-left:8px}
+.tl{position:relative;margin:0 0 8px 12px;padding:8px 0 0 22px;border-left:2px solid var(--line)}
+.ev{position:relative;margin:12px 0;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gc);border-radius:8px;padding:10px 14px;box-shadow:var(--shadow)}
+.ev::before{content:"";position:absolute;left:-31px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gc);border:2px solid var(--bg)}
+.ev.big{background:linear-gradient(90deg,rgba(214,137,16,.10),var(--panel) 40%)}
+.ev .meta{font-size:13px;color:var(--sub);display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tag{color:#fff;background:var(--gc);border-radius:4px;padding:0 8px;font-size:12px}
+.star{color:#d68910;font-weight:700}
+.ev h3{margin:2px 0 2px;font-size:17px}
+.ev p{margin:0;color:var(--sub);font-size:14.5px}
+.pics{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pics img{width:calc(33.3% - 4px);min-width:120px;max-width:230px;height:140px;object-fit:cover;border-radius:6px;cursor:zoom-in}
+.empty{text-align:center;color:var(--sub);padding:40px}
+/* 各組 */
+.lanes{display:grid;gap:18px}
+.lane{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--gc);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow)}
+.lane h3{margin:0 0 4px;color:var(--gc)}
+.lane .desc{color:var(--sub);font-size:14px;margin:0 0 10px}
+.lane ol{margin:0;padding:0;list-style:none;border-left:2px solid var(--line)}
+.lane li{position:relative;padding:4px 0 4px 16px;font-size:14.5px}
+.lane li::before{content:"";position:absolute;left:-6px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--gc)}
+.lane li time{color:var(--sub);font-size:13px;margin-right:8px}
+.lane li.big b{color:#c0771a}
+.cov{overflow-x:auto}
+table.cov{border-collapse:collapse;width:100%;font-size:13px}
+table.cov th,table.cov td{border:1px solid var(--line);padding:5px 6px;text-align:center}
+table.cov td.n{background:var(--gc);color:#fff}
+table.cov td.p{background:color-mix(in srgb,var(--gc) 35%,var(--panel))}
+table.cov th:first-child,table.cov td:first-child{text-align:left;white-space:nowrap}
+/* 月曆 */
+.cor{position:relative;margin:0 0 8px 12px;padding:6px 0 0 22px;border-left:2px solid var(--line)}
+.cor .card{position:relative;margin:12px 0;background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--gc);border-radius:8px;padding:12px 14px;box-shadow:var(--shadow)}
+.cor .card::before{content:"";position:absolute;left:-31px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gc);border:2px solid var(--bg)}
+.cor .card h3{margin:4px 0 8px;font-size:16.5px;line-height:1.6}
+.cor .pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.cor figure{margin:0}
+.cor figure img{width:100%;height:135px;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block}
+.cor figcaption{font-size:12px;color:var(--sub);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.cal{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.month{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow)}
+.month h3{margin:0 0 6px;color:var(--accent)}
+.month ul{margin:0;padding:0;list-style:none}
+.month li{font-size:14px;padding:3px 0 3px 10px;border-left:4px solid var(--gc);margin:5px 0}
+.month li b{color:var(--gc);font-weight:600;margin-right:4px}
+.month li{display:flex;gap:8px;align-items:center}
+.month li .tx{flex:1}
+.month li small{color:var(--sub);margin-right:4px}
+.month li img{width:64px;height:48px;object-fit:cover;border-radius:4px;cursor:zoom-in;flex:none}
+.cal-note{margin:0 0 14px;color:var(--sub);font-size:14px}
+/* 相片 */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.gal figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.gal img{width:100%;height:160px;object-fit:cover;display:block;cursor:zoom-in}
+.gal figcaption{padding:8px 10px;font-size:13.5px;color:var(--sub)}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
+#lb.on{display:flex}#lb img{max-width:94vw;max-height:92vh}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:16px}
+.note h3{margin:0 0 6px}
+.note ul{margin:6px 0 0;padding-left:20px}
+footer{text-align:center;color:var(--sub);font-size:13px;padding:24px 16px}
+@media(max-width:600px){.ay{top:50px}.ev::before{left:-30px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>楊梅高中學務處校史</h1>
+  <p>依據「校史圖檔」資料夾（訓育組、活動組、衛生組、體育組）的照片整理各組活動時間軸與大事記，每筆紀事都附相關照片。</p>
+  <div class="stats" id="stats"></div>
+</header>
+<nav class="tabs" id="tabs">
+  <button data-v="v-timeline" class="on">大事記時間軸</button>
+  <button data-v="v-corridor">時光迴廊</button>
+  <button data-v="v-groups">各組時間軸</button>
+  <button data-v="v-annual">年度活動月曆</button>
+  <button data-v="v-photos">歷史相片</button>
+  <button data-v="v-about">資料說明</button>
+</nav>
+<main>
+  <section class="view on" id="v-timeline">
+    <div class="filters" id="chips"></div>
+    <div class="filters">
+      <select id="fay"><option value="">全部學年度</option></select>
+      <input id="fq" type="search" placeholder="搜尋活動、關鍵字…">
+      <label><input type="checkbox" id="fbig"> 只看大事記 <span class="star">★</span></label>
+      <span id="fcount" style="color:var(--sub);font-size:14px"></span>
+    </div>
+    <div id="timeline"></div>
+  </section>
+
+  <section class="view" id="v-corridor">
+    <div class="filters" id="cchips"></div>
+    <div id="corridor"></div>
+  </section>
+
+  <section class="view" id="v-groups">
+    <div class="lanes" id="lanes"></div>
+    <div class="note" style="margin-top:18px"><h3>各組資料涵蓋的學年度</h3>
+      <div class="cov" id="cov"></div>
+      <p style="font-size:13px;color:var(--sub);margin:8px 0 0">深色＝有較完整文件可編寫；淺色＝僅少量文件；空白＝資料夾內未見可讀取的文件（可能只有照片或尚無資料）。</p>
+    </div>
+  </section>
+
+  <section class="view" id="v-annual"><div class="cal" id="cal"></div></section>
+
+  <section class="view" id="v-photos">
+    <div class="note"><h3>歷史相片</h3><p style="margin:0;color:var(--sub)">取自「校史圖檔」資料夾，與大事記的照片相同，已縮圖；圖說為日期與事項，日期取自檔名或照片拍攝時間。</p></div>
+    <div class="gal" id="gal"></div>
+  </section>
+
+  <section class="view" id="v-about">
+    <div class="note"><h3>資料來源</h3>
+      <ul>
+        <li><b>大事記</b>：依「校史圖檔」資料夾（活動組、衛生組、體育組、訓育組）的照片重新整理，共 199 筆紀事、311 張照片，每筆紀事都附有照片。</li>
+        <li><b>年度活動月曆</b>：同樣依「校史圖檔」各活動的日期，依月份重新排列。</li>
+      </ul></div>
+    <div class="note"><h3>編寫方式與限制</h3>
+      <ul>
+        <li><b>日期</b>：優先取檔名或資料夾名稱中的日期（例如「1061229改隸市立慶祝大會」→ 2017-12-29），其次取照片拍攝時間；只能判斷年份或學年度者不硬填月日，並排在該年中間。</li>
+        <li><b>時間為依照片判斷</b>：照片拍攝時間可能受相機時鐘影響；例如 70 週年校慶部分照片為 5/27，其餘與資料夾名稱為 5/26，這裡以 5/26 為準。</li>
+        <li><b>事項為依檔名與影像內容歸納</b>，尚未逐一核對公文；細節（人數、名次、地點）請以原始資料為準。</li>
+        <li><b>覆蓋不均</b>：體育組僅有 98–100 學年度、衛生組僅有 102–103 學年度、訓育組僅有 104、107 學年度的照片；生輔組目前沒有圖檔；105、109、110、112 學年度也沒有圖檔，因此沒有紀事。涵蓋表以「有照片可編寫」為準。</li>
+        <li>學年度換算：民國 N 學年度 ＝ N+1911 年 8 月至 N+1912 年 7 月。</li>
+      </ul></div>
+    <div class="note"><h3>建議下一步補充</h3>
+      <ul>
+        <li>補上沒有照片的學年度與組別（尤其是生輔組、105–112 學年度的各組活動）。</li>
+        <li>逐一閱讀各組「成果報告」「大事紀」檔案，把確切日期、人數與獲獎成績補進來。</li>
+        <li>請歷任組長與學務主任校閱，補上圖檔中看不出來的重要事件。</li>
+      </ul></div>
+  </section>
+</main>
+<footer>楊梅高中學務處校史網頁 · 大事記整理自「校史圖檔」資料夾</footer>
+<div id="lb"><img alt=""></div>
+<script src="data.js"></script>
+<script>
+const G=window.GROUPS, EV=window.EVENTS;
+const pad=(s)=>s.length===4?s+"-07-01":s.length===7?s+"-15":s;
+EV.forEach(e=>{
+  const p=e.d.split("-").map(Number);
+  if(e.ay==null) e.ay = p.length>=2 ? (p[1]>=8?p[0]-1911:p[0]-1912) : null;
+  e.key = pad(e.d);
+  e.disp = p.length===3?`${p[0]}/${p[1]}/${p[2]}`:p.length===2?`${p[0]}年${p[1]}月`:`${p[0]}年`;
+  e.approx = p.length<3;
+});
+EV.sort((a,b)=>a.key<b.key?-1:a.key>b.key?1:0);
+const ayLabel=ay=>`${ay} 學年度`;
+const ayRange=ay=>`${ay+1911}.08 – ${ay+1912}.07`;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+// 統計
+const ays=[...new Set(EV.map(e=>e.ay))].sort((a,b)=>a-b);
+$("stats").innerHTML=[
+  [EV.length,"筆紀事"],[EV.filter(e=>e.big).length,"項大事記"],[ays.length,"個學年度"],[new Set(EV.map(e=>e.g)).size,"個組別"]
+].map(([n,t])=>`<div class="stat"><b>${n}</b><span>${t}</span></div>`).join("");
+
+// 分頁
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#tabs button").forEach(x=>x.classList.toggle("on",x===b));
+  document.querySelectorAll("section.view").forEach(s=>s.classList.toggle("on",s.id===b.dataset.v));
+  scrollTo({top:0});
+});
+
+// 篩選
+let fg="all";
+const chipDefs=[["all","全部"],...["xun","huo","wei","ti","sheng"].map(k=>[k,G[k].name])];
+$("chips").innerHTML=chipDefs.map(([k,n])=>`<button class="chip${k==="all"?" on":""}" data-g="${k}" style="${k==="all"?"background:var(--accent)":""}">${n}</button>`).join("");
+$("chips").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  fg=c.dataset.g;
+  $("chips").querySelectorAll(".chip").forEach(x=>{x.classList.toggle("on",x===c);x.style.background=x===c?(x.dataset.g==="all"?"var(--accent)":G[x.dataset.g].color):""});
+  render();
+});
+ays.forEach(a=>$("fay").insertAdjacentHTML("beforeend",`<option value="${a}">${ayLabel(a)}（${ayRange(a)}）</option>`));
+["fay","fq","fbig"].forEach(i=>$(i).addEventListener("input",render));
+
+function card(e){
+  const g=e.g==="all"?G.all:G[e.g];
+  return `<div class="ev${e.big?" big":""}" style="--gc:${g.color}">
+    <div class="meta"><span class="tag">${g.name}</span><time>${e.disp}${e.approx?"（約）":""}</time>${e.big?'<span class="star">★ 大事記</span>':""}</div>
+    <h3>${esc(e.t)}</h3><p>${esc(e.n)}</p>
+    ${e.ph&&e.ph.length?`<div class="pics">${e.ph.map(f=>`<img src="assets/photos/${f}" alt="${esc(e.t)}" loading="lazy">`).join("")}</div>`:""}
+  </div>`;
+}
+function render(){
+  const q=$("fq").value.trim().toLowerCase(), fa=$("fay").value, big=$("fbig").checked;
+  const list=EV.filter(e=>(fg==="all"||e.g===fg||e.g==="all"&&fg==="all")&&(!fa||e.ay==fa)&&(!big||e.big)&&(!q||(e.t+e.n).toLowerCase().includes(q)));
+  $("fcount").textContent=`共 ${list.length} 筆`;
+  if(!list.length){$("timeline").innerHTML='<div class="empty">沒有符合的紀事</div>';return}
+  let out="",cur=null;
+  list.forEach(e=>{
+    if(e.ay!==cur){ if(cur!==null) out+="</div>"; cur=e.ay;
+      out+=`<h2 class="ay">${ayLabel(cur)}<small>${ayRange(cur)}</small></h2><div class="tl">`; }
+    out+=card(e);
+  });
+  $("timeline").innerHTML=out+"</div>";
+  bindZoom();
+}
+render();
+
+// 時光迴廊
+let cg="all";
+$("cchips").innerHTML=chipDefs.map(([k,n])=>`<button class="chip${k==="all"?" on":""}" data-g="${k}" style="${k==="all"?"background:var(--accent)":""}">${n}</button>`).join("");
+$("cchips").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+  cg=c.dataset.g;
+  $("cchips").querySelectorAll(".chip").forEach(x=>{x.classList.toggle("on",x===c);x.style.background=x===c?(x.dataset.g==="all"?"var(--accent)":G[x.dataset.g].color):""});
+  renderCor();
+});
+function renderCor(){
+  const P=(window.PERIODS||[]).filter(p=>cg==="all"||p.g===cg);
+  let out="",cur=null;
+  P.forEach(p=>{
+    if(p.ay!==cur){ if(cur!==null) out+="</div>"; cur=p.ay; out+=`<h2 class="ay">${ayLabel(cur)}<small>${ayRange(cur)}</small></h2><div class="cor">`; }
+    const g=G[p.g]||G.all;
+    out+=`<div class="card" style="--gc:${g.color}"><div class="meta"><span class="tag">${g.name}</span></div><h3>${esc(p.title)}</h3>${p.text?`<p style="margin:0 0 8px;color:var(--sub);font-size:14.5px">${esc(p.text)}</p>`:""}
+      <div class="pg">${p.ph.map(x=>`<figure><img src="assets/photos/${x.f}" alt="${esc(x.c)}" loading="lazy"><figcaption title="${esc(x.c)}">${esc(x.c)}</figcaption></figure>`).join("")}</div></div>`;
+  });
+  $("corridor").innerHTML=(out?out+"</div>":'<div class="empty">沒有符合的資料</div>');
+  bindZoom();
+}
+renderCor();
+
+// 各組
+const desc={
+ xun:"班聯會與班級代表大會、畢業紀念冊、畢業典禮、教師節、祖父母節、親職教育、美術比賽與校外教學等。",
+ huo:"社團與校隊（管樂社）、校慶園遊會、公民訓練、國際教育旅行與校際交流、童軍、校刊與各類表演活動。",
+ wei:"健康促進學校、環境教育與資源回收、捐血、傳染病與疫情防治、午餐與校園食品、整潔與生活榮譽競賽。",
+ ti:"運動會、班際與校際球類賽、水上運動會、體育班設班與特色招生、游泳池整修。",
+ sheng:"生活輔導、正向管教與性平研習、相關委員會。"
+};
+$("lanes").innerHTML=["xun","huo","wei","ti","sheng"].map(k=>{
+  const l=EV.filter(e=>e.g===k);
+  return `<div class="lane" style="--gc:${G[k].color}"><h3>${G[k].name}（${l.length} 筆）</h3><p class="desc">${desc[k]}</p>
+   <ol>${l.map(e=>`<li class="${e.big?"big":""}"><time>${e.disp}${e.approx?"約":""}</time>${e.big?"<b>★ "+esc(e.t)+"</b>":esc(e.t)}</li>`).join("")}</ol></div>`;
+}).join("");
+// 涵蓋表
+const C=window.COVERAGE, CA=window.COVERAGE_AY;
+$("cov").innerHTML=`<table class="cov"><tr><th>組別</th>${CA.map(a=>`<th>${a}</th>`).join("")}</tr>`+
+ C.map(r=>`<tr style="--gc:${G[r.g].color}"><td>${G[r.g].name}</td>${r.cover.map(v=>`<td class="${v===1?"n":v===2?"p":""}"></td>`).join("")}</tr>`).join("")+"</table>"+
+ `<ul style="font-size:13.5px;color:var(--sub);margin:10px 0 0;padding-left:18px">`+C.map(r=>`<li><b>${G[r.g].name}</b>：${r.folders}。${r.docs}。</li>`).join("")+`</ul>`;
+
+// 月曆（依「校史圖檔」）
+const months=[8,9,10,11,12,1,2,3,4,5,6,7];
+const aLi=a=>`<li style="--gc:${G[a.g].color}"><div class="tx"><b>${G[a.g].name}</b><small>${a.d}</small>${esc(a.t)}</div>${a.ph?`<img src="assets/photos/${a.ph}" alt="${esc(a.t)}" loading="lazy">`:""}</li>`;
+const calCards=months.map(m=>{
+  const l=window.ANNUAL.filter(a=>a.m===m);
+  return `<div class="month"><h3>${m} 月<small style="color:var(--sub);font-weight:400;font-size:13px">　${l.length} 筆</small></h3><ul>${l.length?l.map(aLi).join(""):'<li style="color:var(--sub);border-left-color:var(--line)"><div class="tx">「校史圖檔」中沒有這個月份的紀事</div></li>'}</ul></div>`;
+});
+const unk=window.ANNUAL.filter(a=>a.m===0);
+if(unk.length) calCards.push(`<div class="month"><h3>月份不明<small style="color:var(--sub);font-weight:400;font-size:13px">　${unk.length} 筆</small></h3><ul>${unk.map(aLi).join("")}</ul></div>`);
+$("cal").innerHTML=`<p class="cal-note" style="grid-column:1/-1">依「校史圖檔」中各活動的日期，依學年（8 月到隔年 7 月）排列；同一個月份可以看出各年重複辦理的活動。只知道年份、月份不明的紀事，列在最後。</p>`+calCards.join("");
+
+// 相片
+$("gal").innerHTML=window.PHOTOS.map(p=>`<figure><img src="assets/photos/${p.f}" alt="${esc(p.c)}" loading="lazy"><figcaption>${esc(p.c)}</figcaption></figure>`).join("");
+function bindZoom(){document.querySelectorAll(".gal img,.pics img,.month img,.cor img").forEach(i=>i.onclick=()=>{$("lb").querySelector("img").src=i.src;$("lb").classList.add("on")})}
+$("lb").onclick=()=>$("lb").classList.remove("on");
+bindZoom();
+</script>
+</body>
+</html>
