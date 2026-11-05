@@ -87,7 +87,7 @@ table.cov th:first-child,table.cov td:first-child{text-align:left;white-space:no
 /* 相片 */
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
 .gal figure{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.gal img{width:100%;height:160px;object-fit:cover;display:block;cursor:zoom-in}
+.gal img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:50% 20%;display:block;cursor:zoom-in}
 .gal figcaption{padding:8px 10px;font-size:13.5px;color:var(--sub)}
 #lb{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out}
 #lb.on{display:flex}#lb img{max-width:94vw;max-height:92vh}
